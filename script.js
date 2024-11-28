@@ -19,20 +19,26 @@ async function sendToRasa(message) {
     return data;
 }
 
-// Function to display messages in the chat container with typing effect
+// Function to display messages in the chat container immediately
 function displayMessage(sender, message) {
     const messageElement = document.createElement('div');
     messageElement.className = sender === 'user' ? 'user-message' : 'bot-message';
+    messageElement.textContent = message;
     chatContainer.appendChild(messageElement);
-    
-    let i = 0;
-    const typingEffect = setInterval(() => {
-        messageElement.textContent += message.charAt(i);
+    chatContainer.scrollTop = chatContainer.scrollHeight; // Auto-scroll to the bottom
+}
+
+// Typing effect function for bot response (with a fast typing effect)
+function typeWriter(element, message, i, callback) {
+    if (i < message.length) {
+        element.textContent += message.charAt(i); // Add one character at a time
         i++;
-        if (i > message.length) {
-            clearInterval(typingEffect); // Stop typing effect once done
-        }
-    }, 50); // Adjust typing speed here (in ms)
+        setTimeout(function() {
+            typeWriter(element, message, i, callback);
+        }, 50); // Adjust the speed here (50ms per character)
+    } else {
+        callback(); // Once typing is done, execute the callback function
+    }
 }
 
 // Function to handle sending message when the user clicks the send button
@@ -40,24 +46,25 @@ sendButton.addEventListener('click', async () => {
     const userMessage = inputField.value.trim(); // Remove unnecessary spaces
     if (!userMessage) return; // Prevent sending empty messages
 
-    displayMessage('user', userMessage); // Display user message
+    displayMessage('user', userMessage); // Show user's message
     inputField.value = ''; // Clear input field
 
-    // Show typing indication from the bot
-    displayMessage('bot', 'Charli is typing...');
-
     try {
-        const rasaResponse = await sendToRasa(userMessage); // Get response from Rasa
-        
-        // Clear "typing..." message
-        chatContainer.lastChild.textContent = ''; // Clear "Charli is typing..." message
+        const rasaResponse = await sendToRasa(userMessage);
 
         // Ensure response is an array or single object
         const responses = Array.isArray(rasaResponse) ? rasaResponse : [rasaResponse];
 
         responses.forEach((msg) => {
             if (msg.hasOwnProperty('text')) {
-                displayMessage('bot', msg.text); // Display bot's reply
+                const botMessageElement = document.createElement('div');
+                botMessageElement.className = 'bot-message'; // Add a class to style it as bot message
+                chatContainer.appendChild(botMessageElement); // Add it to the chat container
+
+                // Call the typeWriter function to simulate typing
+                typeWriter(botMessageElement, msg.text, 0, () => {
+                    // Once the typing is done, you can trigger any follow-up action
+                });
             }
         });
     } catch (error) {
