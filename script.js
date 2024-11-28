@@ -35,7 +35,7 @@ function typeWriter(element, message, i, callback) {
         i++;
         setTimeout(function() {
             typeWriter(element, message, i, callback);
-        }, 25); // Adjust the speed here (50ms per character)
+        }, 25); // Adjust the speed here
     } else {
         callback(); // Once typing is done, execute the callback function
     }
