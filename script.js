@@ -21,7 +21,6 @@ async function sendToRasa(message) {
     return data;
 }
 
-
 // Function to display messages in the chat container
 function displayMessage(sender, message) {
     const messageElement = document.createElement('div');
@@ -32,7 +31,7 @@ function displayMessage(sender, message) {
 
 // Function to handle sending message when the user clicks the send button
 sendButton.addEventListener('click', async () => {
-    const userMessage = inputField.value;
+    const userMessage = inputField.value.trim(); // Remove unnecessary spaces
     if (!userMessage) return; // Prevent sending empty messages
 
     displayMessage('user', userMessage);
@@ -40,7 +39,11 @@ sendButton.addEventListener('click', async () => {
 
     try {
         const rasaResponse = await sendToRasa(userMessage);
-        rasaResponse.forEach((msg) => {
+        
+        // Ensure response is an array or single object
+        const responses = Array.isArray(rasaResponse) ? rasaResponse : [rasaResponse];
+        
+        responses.forEach((msg) => {
             // Check if the message contains 'text' property
             if (msg.hasOwnProperty('text')) {
                 displayMessage('bot', msg.text);
@@ -58,41 +61,3 @@ inputField.addEventListener('keypress', (event) => {
         sendButton.click();
     }
 });
-
-
-
-
-/*
-// Get references to the DOM elements
-const questionInput = document.getElementById('userInput'); // Changed from 'question' to 'userInput'
-const askButton = document.getElementById('send-button'); // Changed from 'ask' to 'send-button'
-const answerOutput = document.getElementById('answer'); // Keep this ID as 'answer'
-
-// Function to handle button click
-askButton.addEventListener('click', async () => {
-  const question = questionInput.value; // Get the user's question
-
-  // Validate the input
-  if (!question) {
-    answerOutput.textContent = 'Please enter a question.';
-    return;
-  }
-
-  // Send a POST request to the server
-  try {
-    const response = await fetch('http://localhost:3000/ask', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ question }),
-    });
-
-    const data = await response.json(); // Parse the JSON response
-    answerOutput.textContent = data.answer; // Display the answer
-  } catch (error) {
-    console.error('Error:', error);
-    answerOutput.textContent = 'An error occurred. Please try again later.';
-  }
-});
-*/
