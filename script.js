@@ -5,13 +5,11 @@ const sendButton = document.getElementById('send-button');
 
 // Function to send a message to Rasa via the Express server
 async function sendToRasa(message) {
-    const response = await fetch('https://charli-1-server.onrender.com', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ message: message }),
-    });
+    const response = await fetch('https://charli-1-server.onrender.com/api/message', { 
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ message: message }),
+});
 
     if (!response.ok) {
         throw new Error('Network response was not ok ' + response.statusText);
