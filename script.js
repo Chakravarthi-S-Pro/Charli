@@ -5,7 +5,7 @@ const sendButton = document.getElementById('send-button');
 
 // Function to send a message to Rasa via the Express server
 async function sendToRasa(message) {
-    const response = await fetch('https://charli-1.onrender.com/webhooks/rest/webhook', {
+    const response = await fetch('https://charli-1-server.onrender.com', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
