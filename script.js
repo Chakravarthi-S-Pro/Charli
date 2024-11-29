@@ -1,8 +1,8 @@
 // Select necessary DOM elements
 document.addEventListener('DOMContentLoaded', function () {
     const chatContainer = document.getElementById('chat-container');
-    const inputField = document.getElementById('input-field');
-    const sendButton = document.getElementById('send-button');
+    const inputField = document.getElementById('chat-input'); // Corrected ID
+    const sendButton = document.getElementById('send-btn'); // Corrected ID
 
     // Function to send a message to Rasa via the Express server
     async function sendToRasa(message) {
@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    // Function to display messages in the chat container immediately
+    // Function to display messages in the chat container
     function displayMessage(sender, message) {
         const messageElement = document.createElement('div');
         messageElement.className = sender === 'user' ? 'user-message' : 'bot-message';
@@ -91,3 +91,25 @@ document.addEventListener('DOMContentLoaded', function () {
     sendButton.addEventListener('click', async () => {
         const userMessage = inputField.value.trim(); // Remove unnecessary spaces
         if (!userMessage) return; // Prevent sending empty messages
+
+        displayMessage('user', userMessage); // Display user's message
+
+        inputField.value = ''; // Clear the input field
+
+        // Send the message to Rasa and get the response
+        try {
+            const rasaResponse = await sendToRasa(userMessage);
+            await handleBotResponse(rasaResponse); // Handle the bot's response
+        } catch (error) {
+            console.error(error);
+            displayMessage('bot', 'Sorry, something went wrong. Please try again later.');
+        }
+    });
+
+    // Optional: Handle pressing Enter to send message
+    inputField.addEventListener('keypress', function (e) {
+        if (e.key === 'Enter') {
+            sendButton.click(); // Trigger send button click event when Enter is pressed
+        }
+    });
+});
