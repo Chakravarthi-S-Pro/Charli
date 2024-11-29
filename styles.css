@@ -53,6 +53,12 @@ body {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  max-height: calc(100% - 100px); /* Adjust this based on your layout */
+}
+
+/* Hidden loading screen and messages */
+.hidden {
+  display: none;
 }
 
 /* Message Styling */
@@ -74,13 +80,14 @@ body {
   color: #fff;
 }
 
-/* Input Box */
+/* Ensure input area doesn't block the chat box */
 #input-container {
   display: flex;
   padding: 10px;
   background-color: #3a3a3a;
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
+  z-index: 9999; /* Ensure it’s always above chat messages */
 }
 
 #chat-input {
