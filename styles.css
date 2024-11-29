@@ -1,21 +1,112 @@
+/* General Styling */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background-color: #1e1e1e;
+  color: #f1f1f1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Loading Screen */
+#loading {
+  text-align: center;
+}
+.loader {
+  border: 8px solid #f1f1f1;
+  border-top: 8px solid #ff6347;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 1s linear infinite;
+  margin: 0 auto;
+}
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+.hidden {
+  display: none;
+}
+
+/* Chat Container */
 #chat-container {
-  max-height: 400px;
+  background-color: #2c2c2c;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+  width: 400px;
+  height: 600px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header */
+#header {
+  text-align: center;
+  padding: 20px;
+  background-color: #3a3a3a;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+#header h1 {
+  margin: 0;
+  font-size: 24px;
+  color: #ff6347;
+}
+#header p {
+  font-size: 14px;
+  color: #ccc;
+}
+
+/* Chat Box */
+#chat-box {
+  flex: 1;
   overflow-y: auto;
-  border: 1px solid #ccc;
   padding: 10px;
-  margin-bottom: 10px;
 }
-
+.chat-message {
+  margin: 5px 0;
+  padding: 10px;
+  border-radius: 5px;
+}
 .user-message {
-  background-color: #dcf8c6;
-  padding: 5px;
-  margin: 5px 0;
-  border-radius: 5px;
+  background-color: #4caf50;
+  align-self: flex-end;
+  color: #fff;
+}
+.bot-message {
+  background-color: #444;
+  align-self: flex-start;
+  color: #fff;
 }
 
-.bot-message {
-  background-color: #f1f1f1;
-  padding: 5px;
-  margin: 5px 0;
+/* Input Box */
+#input-container {
+  display: flex;
+  padding: 10px;
+  background-color: #3a3a3a;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+#chat-input {
+  flex: 1;
+  padding: 10px;
+  border: none;
   border-radius: 5px;
+  margin-right: 10px;
+}
+#send-btn {
+  padding: 10px;
+  background-color: #ff6347;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+}
+#send-btn:hover {
+  background-color: #ff4500;
 }

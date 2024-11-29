@@ -3,14 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IamCharli</title>
-    <link rel="stylesheet" href="styles.css"> <!-- Optional: Link your CSS -->
+    <title>Charli - Chatbot</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div id="chat-container"></div> <!-- Chat message container -->
-    <input type="text" id="input-field" placeholder="Type your message here...">
-    <button id="send-button">Send</button>
-    
-    <script src="script.js"></script> <!-- Link to your script.js -->
+    <div id="loading">
+        <div class="loader"></div>
+        <h2>Loading Charli...</h2>
+    </div>
+    <div id="chat-container" class="hidden">
+        <div id="header">
+            <h1>Charli</h1>
+            <p>I am Charli, here to help you learn about Chakravarthi's details, career, skills, and more!</p>
+        </div>
+        <div id="chat-box">
+            <!-- Chat messages -->
+        </div>
+        <div id="input-container">
+            <input type="text" id="chat-input" placeholder="Type your message here...">
+            <button id="send-btn">Send</button>
+        </div>
+    </div>
+    <script src="script.js"></script>
 </body>
 </html>
