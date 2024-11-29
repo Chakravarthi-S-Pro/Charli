@@ -42,7 +42,24 @@ body {
   height: 600px;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+}
+
+/* Header */
+#header {
+  text-align: center;
+  padding: 20px;
+  background-color: #3a3a3a;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+#header h1 {
+  margin: 0;
+  font-size: 24px;
+  color: #ff6347;
+}
+#header p {
+  font-size: 14px;
+  color: #ccc;
 }
 
 /* Chat Box */
@@ -53,15 +70,10 @@ body {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  max-height: calc(100% - 100px); /* Adjust this based on your layout */
+  padding-right: 15px; /* Add some space for the scrollbar */
+  margin-bottom: 10px;
 }
 
-/* Hidden loading screen and messages */
-.hidden {
-  display: none;
-}
-
-/* Message Styling */
 .chat-message {
   margin: 5px 0;
   padding: 10px;
@@ -72,22 +84,23 @@ body {
   background-color: #4caf50;
   align-self: flex-end;
   color: #fff;
+  max-width: 80%;
 }
 
 .bot-message {
   background-color: #444;
   align-self: flex-start;
   color: #fff;
+  max-width: 80%;
 }
 
-/* Ensure input area doesn't block the chat box */
+/* Input Box */
 #input-container {
   display: flex;
   padding: 10px;
   background-color: #3a3a3a;
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
-  z-index: 9999; /* Ensure it’s always above chat messages */
 }
 
 #chat-input {
@@ -109,4 +122,13 @@ body {
 
 #send-btn:hover {
   background-color: #ff4500;
+}
+
+/* Typing indicator */
+.typing-indicator {
+  font-style: italic;
+  color: #ccc;
+  font-size: 12px;
+  text-align: center;
+  padding: 5px;
 }

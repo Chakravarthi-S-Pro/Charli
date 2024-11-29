@@ -1,4 +1,3 @@
-// Select necessary DOM elements
 document.addEventListener('DOMContentLoaded', function () {
     const chatContainer = document.getElementById('chat-container');
     const inputField = document.getElementById('chat-input');
@@ -26,102 +25,93 @@ document.addEventListener('DOMContentLoaded', function () {
             return data;
         } catch (error) {
             console.error('Error during message fetch:', error);
-            throw new Error('Failed to communicate with the Charli. Please try again later.');
+            throw new Error('Failed to communicate with Charli. Please try again later.');
         }
     }
 
     // Function to display messages in the chat container
-function displayMessage(sender, message) {
-    const messageElement = document.createElement('div');
-    messageElement.className = sender === 'user' ? 'user-message' : 'bot-message';
-    messageElement.textContent = message;
+    function displayMessage(sender, message) {
+        const messageElement = document.createElement('div');
+        messageElement.className = sender === 'user' ? 'user-message' : 'bot-message';
+        messageElement.textContent = message;
 
-    // Append message to the chat box (not directly to the container)
-    const chatBox = document.getElementById('chat-box');
-    chatBox.appendChild(messageElement);
-
-    // Auto-scroll to the bottom
-    chatBox.scrollTop = chatBox.scrollHeight;
-}
-
-// Typing effect function for bot response (with a fast typing effect)
-function typeWriter(element, message, i, callback) {
-    if (i < message.length) {
-        element.textContent += message.charAt(i); // Add one character at a time
-        i++;
-        setTimeout(function () {
-            typeWriter(element, message, i, callback);
-        }, 25); // Adjust the speed here
-    } else {
-        callback(); // Once typing is done, execute the callback function
+        // Append message to the chat box
+        const chatBox = document.getElementById('chat-box');
+        chatBox.appendChild(messageElement);
+        chatBox.scrollTop = chatBox.scrollHeight; // Auto-scroll to the bottom
     }
-}
 
-// Function to show "Bot is typing..." indicator
-function showTypingIndicator() {
-    const typingIndicator = document.createElement('div');
-    typingIndicator.className = 'bot-message typing-indicator';
-    typingIndicator.textContent = 'Charli is typing...';
-    const chatBox = document.getElementById('chat-box');
-    chatBox.appendChild(typingIndicator);
-    chatBox.scrollTop = chatBox.scrollHeight; // Auto-scroll to the bottom
-    return typingIndicator;
-}
+    // Typing effect function for bot response
+    function typeWriter(element, message, i, callback) {
+        if (i < message.length) {
+            element.textContent += message.charAt(i);
+            i++;
+            setTimeout(function () {
+                typeWriter(element, message, i, callback);
+            }, 25);
+        } else {
+            callback();
+        }
+    }
 
-// Function to hide "Bot is typing..." indicator
-function hideTypingIndicator(typingIndicator) {
-    typingIndicator.remove();
-}
+    // Function to show typing indicator
+    function showTypingIndicator() {
+        const typingIndicator = document.createElement('div');
+        typingIndicator.className = 'bot-message typing-indicator';
+        typingIndicator.textContent = 'Charli is typing...';
+        const chatBox = document.getElementById('chat-box');
+        chatBox.appendChild(typingIndicator);
+        chatBox.scrollTop = chatBox.scrollHeight; // Auto-scroll to the bottom
+        return typingIndicator;
+    }
 
+    // Function to hide typing indicator
+    function hideTypingIndicator(typingIndicator) {
+        typingIndicator.remove();
+    }
 
-    // Typing effect and message display in one function
+    // Handle Bot Response
     async function handleBotResponse(rasaResponse) {
         const responses = Array.isArray(rasaResponse) ? rasaResponse : [rasaResponse];
 
-        // Show typing indicator while waiting for the bot response
         const typingIndicator = showTypingIndicator();
 
-        // Iterate over responses
         for (const msg of responses) {
             if (msg.hasOwnProperty('text')) {
                 const botMessageElement = document.createElement('div');
-                botMessageElement.className = 'bot-message'; // Add a class to style it as bot message
-                chatContainer.appendChild(botMessageElement); // Add it to the chat container
+                botMessageElement.className = 'bot-message';
+                document.getElementById('chat-box').appendChild(botMessageElement);
 
-                // Call the typeWriter function to simulate typing
                 await new Promise((resolve) => {
-                    typeWriter(botMessageElement, msg.text, 0, resolve); // Wait for typing animation to complete
+                    typeWriter(botMessageElement, msg.text, 0, resolve);
                 });
             }
         }
 
-        // Hide typing indicator after response is displayed
         hideTypingIndicator(typingIndicator);
     }
 
-    // Function to handle sending message when the user clicks the send button
+    // Handle sending message when the user clicks the send button
     sendButton.addEventListener('click', async () => {
-        const userMessage = inputField.value.trim(); // Remove unnecessary spaces
-        if (!userMessage) return; // Prevent sending empty messages
+        const userMessage = inputField.value.trim();
+        if (!userMessage) return;
 
-        displayMessage('user', userMessage); // Display user's message
+        displayMessage('user', userMessage);
+        inputField.value = ''; // Clear input field
 
-        inputField.value = ''; // Clear the input field
-
-        // Send the message to Rasa and get the response
         try {
             const rasaResponse = await sendToRasa(userMessage);
-            await handleBotResponse(rasaResponse); // Handle the bot's response
+            await handleBotResponse(rasaResponse);
         } catch (error) {
             console.error(error);
             displayMessage('bot', 'Sorry, something went wrong. Please try again later.');
         }
     });
 
-    // Optional: Handle pressing Enter to send message
+    // Handle pressing Enter key to send message
     inputField.addEventListener('keypress', function (e) {
         if (e.key === 'Enter') {
-            sendButton.click(); // Trigger send button click event when Enter is pressed
+            sendButton.click();
         }
     });
 });
