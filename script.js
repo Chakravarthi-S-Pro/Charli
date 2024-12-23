@@ -11,8 +11,8 @@ document.addEventListener('DOMContentLoaded', function () {
     // Function to send a message to Rasa via the Express server
     async function sendToRasa(message) {
         try {
-          //  const response = await fetch('https://charli-1-server.onrender.com/api/message', {
-              const response = await fetch('http://192.168.29.2:5006/api/message', {
+            // Using the correct URL based on your server's IP address
+            const response = await fetch('http://192.168.29.2:5006/api/message', { // Modify to match your server address
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ message: message }),
