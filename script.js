@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', function () {
     async function sendToRasa(message) {
         try {
             // Using the correct URL based on your server's IP address
-            const response = await fetch('http://192.168.29.2:5006/api/message', { // Modify to match your server address
+            const response = await fetch('https://192.168.29.2:5006/api/message', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ message: message }),
