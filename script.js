@@ -11,8 +11,10 @@ document.addEventListener('DOMContentLoaded', function () {
     // Function to send a message to Rasa via the Express server
     async function sendToRasa(message) {
         try {
-            // Using the correct URL based on your server's IP address
-            const response = await fetch('https://192.168.29.2:5006/api/message', {
+            // My backend URL of server
+            const backendURL = 'http://192.168.29.2:5006/api/message'; 
+
+            const response = await fetch(backendURL, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ message: message }),
