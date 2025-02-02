@@ -12,13 +12,12 @@ document.addEventListener('DOMContentLoaded', function () {
     async function sendToRasa(message) {
         try {
             // My backend URL of server
-            const backendURL = 'http://192.168.29.2:5006/api/message'; 
-
-            const response = await fetch(backendURL, {
+            const response = await fetch('https://192.168.29.2:5006/api/message', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ message: message }),
-            });
+                });
+
 
             if (!response.ok) {
                 throw new Error('Network response was not ok: ' + response.statusText);
